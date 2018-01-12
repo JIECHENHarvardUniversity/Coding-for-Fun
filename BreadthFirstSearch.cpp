@@ -1,19 +1,18 @@
-//»ù±¾½âÌâË¼Â·//
+//this program is developed to solve the maze navigation problem//
 
-//½«´ËÎÊÌâµÈĞ§³É×ßÃÔ¹¬µÄÎÊÌâ//
-//ÀûÓÃMĞĞNÁĞµÄ¾ØÕóÄ£Äâ¸ÃÃÔ¹¬//
-//½«¾ØÕóÖĞÃ¿¸ö´«¸ĞÆ÷ÄÜÌ½²âµ½µÄ·¶Î§ÉèÎª¡°0¡±//
-//½«¾ØÕóÖĞËùÓĞ´«¸ĞÆ÷¶¼²»ÄÜÌ½²âµ½µÄ·¶Î§ÉèÎª¡°1¡±//
-//ÉèÖÃ¾ØÕóÖĞµÄÈë¿ÚºÍ³ö¿ÚÎ»ÖÃ//
-//ÔÚ¾ØÕóÖĞµÄÃ¿Ò»¸öentry£¬µÁÔô¿ÉÒÔÏòÉÏÏÂ×óÓÒËÄ¸öÏàÁÚµÄentryÒÆ¶¯//
-//ÒªÇó´Ó¾ØÕóµÄÈë¿Úµ½³ö¿ÚËÑË÷³öÒ»Ìõ×î¶ÌÂ·¾¶£¬ÇÒÊ¹µÁÔôÄÜ±Ü¿ªËùÓĞµÄ´«¸ĞÆ÷//
+//a matrix with M rows and N columns is defined to simulate the maze//
+//"0" is used to represent the obstacles//
+//"1" is used to represent the path//
+//set the start point and end point of the matrix//
+//in each entry of the maze, the agent can move up, down, left, and right//
+//the program is required to search for the shortest path from the start point to the end point//
 
-//±¾Ëã·¨Ê¹ÓÃ¿í¶ÈÓÅÏÈËÑË÷Ëã·¨£¬¡°Breadth First Search (BFS)¡±//
-//Ã¿´ÎËÑË÷£¬BFS¶¼´Ó¾ØÕóµÄÈë¿Ú¿ªÊ¼£¬ÔÚ¾ØÕóµÄ³ö¿ÚÖÕÖ¹//
-//BFSËã·¨·µ»Ø´ÓÈë¿Úµ½³ö¿ÚµÄ×î¶ÌÂ·¾¶ÉÏÃ¿Ò»²½µÄÒÆ¶¯·½Ïò//
-//ÆäÖĞÉÏÏÂ×óÓÒ·Ö±ğÓÃU, D, L, R±íÊ¾//
+//the "Breadth First Search (BFS)" has been deployed//
+//the BFS will startfrom the start point and end once the end point has been reached//
+//BFS returns the shortest path from the start point to the end point//
+//up, down, left, and right are represented by U, D, L, and R, respectively//
 
-//ÒıÓÃÔ¤±àÒëÍ·ÎÄ¼ş
+//include the head files
 #include<iostream>
 #include<stdio.h>
 #include<algorithm>
@@ -22,22 +21,22 @@
 #include<string>
 #include<cmath>
 
-//ÉèÖÃËÑË÷µ½µÄÂ·¾¶Ëù°üº¬µÄ²½ÊıµÄÉÏÏŞ
+//set the limit of iterations for the searching algorithm
 #define path_limit 60000
 
-//ÉèÖÃÃÔ¹¬³ß´çµÄÉÏÏŞ
+//set the limit of the size of the maze
 #define maze_limit 250
 
 using namespace std;
 
-int maze[maze_limit][maze_limit]; //ÀûÓÃmaze¾ØÕó±íÊ¾¸ÃÃÔ¹¬
-int M, N; //¶¨Òå¾ØÕóµÄĞĞÊıºÍÁĞÊı 
-int start_x, start_y, terminate_x, terminate_y; //ÉèÖÃ¾ØÕóµÄÈë¿ÚºÍ³ö¿ÚÎ»ÖÃ
-int next_x, next_y; //ÉèÖÃÏÂÒ»²½µÄÎ»ÖÃ
+int maze[maze_limit][maze_limit]; //define the matrix representing the maze
+int M, N; //define the numbers of rows and columns in the matrix 
+int start_x, start_y, terminate_x, terminate_y; //define the start point and end point in the matrix
+int next_x, next_y; //define the coordinate of the next step
 int HEAD = 0, TAIL = 1;
 int x[4] = {-1, 1, 0, 0}, y[4] = {0, 0, -1, 1};
 int last[path_limit], A[path_limit], B[path_limit];
-//ÉèÖÃpath´¢´æËÑË÷µ½µÄÂ·¾¶£¬direction±íÊ¾¿ÉÒÔÊ¹ÓÃµÄ·½Ïò
+//define the path to store the searched path by the BFS algorithm
 char path[path_limit], direction[4] = {'U','D','L','R'};
 bool label[maze_limit][maze_limit];
 
@@ -48,18 +47,18 @@ void BFS();
 int main()
 {
     int i, j;
-    printf("ÇëÊäÈë¾ØÕóµÄĞĞÊıMºÍÁĞÊıN£¬ÓÃ¿Õ¸ñ¸ô¿ª£º\n");
-    scanf("%d%d",&M,&N); //ÊäÈë¾ØÕóµÄĞĞÊıºÍÁĞÊı
+    printf("è¯·è¾“å…¥çŸ©é˜µçš„è¡Œæ•°Må’Œåˆ—æ•°Nï¼Œç”¨ç©ºæ ¼éš”å¼€ï¼š\n");
+    scanf("%d%d",&M,&N); //input the numbers of rows and columns of the matrix
     
-    printf("Çë°´ĞĞÊäÈë%dĞĞÊı¾İ£¬ÓÃ¿Õ¸ñ¸ô¿ª£¬ÖµÖ»ÄÜÈ¡0»ò1£º\n",M);
+    printf("è¯·æŒ‰è¡Œè¾“å…¥%dè¡Œæ•°æ®ï¼Œç”¨ç©ºæ ¼éš”å¼€ï¼Œå€¼åªèƒ½å–0æˆ–1ï¼š\n",M);
     for(i=1; i<=M; i++)
         for(j=1; j<=N; j++)
             scanf("%d",&maze[i][j]);
-    printf("ÇëÊäÈëÈë¿ÚÎ»ÖÃµÄX[1,%d]ºÍY[1,%d]×ø±ê£¬ÓÃ¿Õ¸ñ¸ô¿ª£º\n",M,N);
+    printf("è¯·è¾“å…¥å…¥å£ä½ç½®çš„X[1,%d]å’ŒY[1,%d]åæ ‡ï¼Œç”¨ç©ºæ ¼éš”å¼€ï¼š\n",M,N);
     scanf("%d%d",&start_x,&start_y);
-    printf("ÇëÊäÈë³ö¿ÚÎ»ÖÃµÄX[1,%d]ºÍY[1,%d]×ø±ê£¬ÓÃ¿Õ¸ñ¸ô¿ª£º\n",M,N);
+    printf("è¯·è¾“å…¥å‡ºå£ä½ç½®çš„X[1,%d]å’ŒY[1,%d]åæ ‡ï¼Œç”¨ç©ºæ ¼éš”å¼€ï¼š\n",M,N);
     scanf("%d%d",&terminate_x,&terminate_y);
-    BFS(); //µ÷ÓÃ¿í¶ÈÓÅÏÈËÑË÷Ëã·¨
+    BFS(); //the BFS algorithm is called
     printf("End");
 }
 
