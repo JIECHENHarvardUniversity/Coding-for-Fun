@@ -1,0 +1,28 @@
+import sys
+n = int(input().strip())
+sn = sys.stdin.readline().split()
+plain_text = [chr(x) for x in range(48,58)]
+plain_text = plain_text + [chr(x) for x in range(65,91)]
+plain_text = plain_text + [chr(x) for x in range(97,123)]
+symbols = [chr(40),chr(41),";",":",",",".","'","?","-","!"," "]
+plain_text = plain_text + symbols
+#print(plain_text)
+
+l = []
+for temp in range(3):
+    for m in range(97,123):
+        i = temp
+        label = False
+        while i<n:
+            s1 = int(sn[i])^m
+            if chr(s1) in plain_text:
+                if i+3>=n:
+                    label = True
+                    break
+            else: break
+            i += 3
+        if label:
+            l.append(chr(m))
+            break
+keys = "".join(l)
+print(keys)

@@ -1,0 +1,28 @@
+import itertools
+div = [1,2,3,5,7,11,13,17]
+n = int(input().strip())
+
+def sample(A):
+    num = []
+    B = [str(x) for x in range(A+1)]
+    C = "".join(B)
+    for i in itertools.permutations(C,A+1):
+        s = "".join(i)
+        #if s[0]!="0": 
+        num.append(s)
+    return(num)
+
+def IsPan(B):
+    l = len(B)
+    label = True   
+    for j in range(1,l-2):
+        if (int(B[j:j+3]))%div[j]!=0:
+            label = False
+            break
+    return(label)
+
+p = []
+num = sample(n)
+for i in range(len(num)):
+    if (IsPan(num[i])): p.append(int(num[i]))
+print(sum(p))

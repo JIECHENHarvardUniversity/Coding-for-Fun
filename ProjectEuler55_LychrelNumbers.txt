@@ -1,0 +1,38 @@
+def rev(A):
+    B = list(str(A))
+    B.reverse()
+    C = "".join(B)
+    return(int(C))
+
+def IsPalin(A):
+    B = list(str(A))
+    B.reverse()
+    temp = "".join(B)
+    temp = int(temp)
+    if temp==A: return(True)
+    else: return(False)
+
+n = int(input().strip())
+lp = {}
+for num in range(1,n+1):
+    if IsPalin(num):
+        if num in lp.keys():
+            lp[num] += 1
+        else:
+            lp[num] = 1
+    else:   
+        dat = num
+        for i in range(1,61):
+            rdat = rev(dat)
+            if IsPalin(dat+rdat):
+                if dat+rdat in lp.keys():
+                    lp[dat+rdat] += 1
+                    break
+                else:
+                    lp[dat+rdat] = 1
+                    break
+            else: dat = dat+rdat
+                   
+kv = {v:k for k,v in lp.items()}
+print(kv[max(lp.values())],end = " ")    
+print(max(lp.values()))
